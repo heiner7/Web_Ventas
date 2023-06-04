@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace DataAccess
 {
-    public class DbContext<T> : IDbContext<T> where T: class,IEntity
+    public class DbContext<T> : IDbContext<T> where T : class, IEntity
     {
         //Objecto que permite implementar Entity framework
         DbSet<T> _items;
@@ -24,11 +24,9 @@ namespace DataAccess
             _items = ctx.Set<T>();
         }
 
-        public void Delete(int id)
+        public IList<T> GetDetalleOrdenVenta(int id)
         {
-            _items.Remove(_items.Where(i => i.Id.Equals(id)).FirstOrDefault());
-            //Se grabe los cambios
-            _ctx.SaveChanges();
+            return _items.FromSqlRaw("Select * from DetalleOrdenVenta where OrdenVentaId=" + id).ToList();
         }
 
         public IList<T> GetAll(int id)
@@ -42,10 +40,15 @@ namespace DataAccess
                 return _items.ToList();
         }
 
-        public IList<T> GetByState(bool estado)
+        public IList<T> GetById(long cedula,string tabla)
         {
-            return _items.Where(i => i.TareaCompleta == estado).ToList();
+            // Verificar si la entidad ya existe en la base de datos
+            T existingEntity = _items.FromSqlRaw("Select * from "+ tabla + " where Cedula=" + cedula).FirstOrDefault();
 
+            if (existingEntity != null)
+                return _items.FromSqlRaw("Select * from "+ tabla + " where Cedula=" + cedula).ToList();
+            else
+                return _items.ToList();
         }
 
         public T Save(T entity)

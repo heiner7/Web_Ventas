@@ -12,7 +12,9 @@ namespace DataAccess
     public class ApiDbContext : IdentityDbContext
     {
         //Permite tener acceso a la tabla de la base de datos
-        public DbSet<Tarea> Tareas { get; set; } 
+        public DbSet<Persona> Personas { get; set; }
+        public DbSet<EncabezadoOrdenVenta> EncabezadoOrdenVentas { get; set; }
+        public DbSet<DetalleOrdenVenta> DetalleOrdenVenta { get; set; }
 
         //Crear constructor y recibe la configuracion que necesita Entity Framework
         //Se lo pasamos a DbContext

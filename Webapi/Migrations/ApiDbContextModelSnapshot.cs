@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Webapi.Migrations
+namespace VentasBackend.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
     partial class ApiDbContextModelSnapshot : ModelSnapshot
@@ -19,33 +19,125 @@ namespace Webapi.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Entities.Tarea", b =>
+            modelBuilder.Entity("Entities.DetalleOrdenVenta", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Descripción")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("FechaRegistro")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("IdProducto")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime?>("FechaTerminada")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("NombreProducto")
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
-                    b.Property<bool>("TareaCompleta")
-                        .HasColumnType("bit");
+                    b.Property<long?>("OrdenVentaCedula")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("Titulo")
-                        .HasMaxLength(70)
-                        .HasColumnType("nvarchar(70)");
+                    b.Property<int>("OrdenVentaId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PorcentajeImpuesto")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<decimal>("PrecioImpuestoUnitario")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<decimal>("PrecioTotalImpuestos")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<decimal>("PrecioUnitario")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("Unidad")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tareas");
+                    b.HasIndex("OrdenVentaCedula");
+
+                    b.ToTable("DetalleOrdenVenta");
+                });
+
+            modelBuilder.Entity("Entities.EncabezadoOrdenVenta", b =>
+                {
+                    b.Property<long>("Cedula")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("FechaOrden")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IdSupermercado")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("MetodoPago")
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
+
+                    b.Property<decimal>("TipoCambio")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.HasKey("Cedula");
+
+                    b.ToTable("EncabezadoOrdenVentas");
+                });
+
+            modelBuilder.Entity("Entities.Persona", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("Cedula")
+                        .HasMaxLength(12)
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CorreoElectronico")
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("Direccion")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<DateTime>("FechaNacimiento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Genero")
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("PrimerApellido")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("SegundoApellido")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Telefono")
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Personas");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -246,6 +338,15 @@ namespace Webapi.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Entities.DetalleOrdenVenta", b =>
+                {
+                    b.HasOne("Entities.EncabezadoOrdenVenta", "OrdenVenta")
+                        .WithMany()
+                        .HasForeignKey("OrdenVentaCedula");
+
+                    b.Navigation("OrdenVenta");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

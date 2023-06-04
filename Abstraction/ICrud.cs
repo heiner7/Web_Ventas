@@ -7,7 +7,7 @@ namespace Abstraction
     {
         T Save(T entity);
         IList<T> GetAll(int id);
-        IList<T> GetByState(bool estado);
-        void Delete(int id);
+        IList<T> GetById(long cedula,string tabla);
+        IList<T> GetDetalleOrdenVenta(int id);
     }
 }

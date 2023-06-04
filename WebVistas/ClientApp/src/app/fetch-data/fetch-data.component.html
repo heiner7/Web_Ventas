@@ -1,0 +1,36 @@
+<h1 style="text-align: center;">TOTAL DE VENTAS POR CLIENTE</h1>
+
+<div style="text-align: center;">
+  <select placeholder="Seleccionar persona" [(ngModel)]="selectedPerson" (change)="loadVentas()">
+    <option *ngFor="let person of persons" [value]="person.cedula">{{ person.nombre }}</option>
+  </select>
+</div>
+
+
+<h2 style="text-align: center;">Ventas por persona</h2>
+
+<table class='table table-striped' aria-labelledby="tableLabel">
+  <thead>
+    <tr>
+      <th>Id orden venta</th>
+      <th>Cedula</th>
+      <th>IdSupermercado</th>
+      <th>MetodoPago</th>
+      <th>TipoCambio</th>
+      <th>FechaOrden</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let venta of ventas">
+      <td>{{ venta.id }}</td>
+      <td>{{ venta.cedula }}</td>
+      <td>{{ venta.idSupermercado }}</td>
+      <td>{{ venta.metodoPago }}</td>
+      <td>{{ venta.tipoCambio }}</td>
+      <td>{{ venta.fechaOrden }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<label style="text-align: left;">TOTAL DE VENTAS(COLONES): {{ totalVentas }}</label>
+

@@ -41,11 +41,11 @@ namespace Webapi
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Prueba Tarea", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ventas X Personas", Version = "v1" });
             });
 
             services.AddDbContext<ApiDbContext>(options =>
-              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("BackendApi")
+              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("VentasBackend")
             ));
 
             //Objecto que queremos configurar y donde saca la configuración
@@ -86,6 +86,15 @@ namespace Webapi
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IDbContext<>), typeof(DbContext<>));
             services.AddScoped(typeof(ITokenHandleService), typeof(TokenHandleService));
+
+            //Cors configurations
+            services.AddCors(options =>
+                        options.AddPolicy(name: "CorsPolicy", builder =>
+                        {
+                            builder.AllowAnyOrigin();
+                            builder.AllowAnyMethod();
+                            builder.AllowAnyHeader();
+                        }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,8 +104,10 @@ namespace Webapi
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BackendApi v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "VentasBackend v1"));
             }
+
+            app.UseCors("CorsPolicy");
 
             app.UseHttpsRedirection();
 

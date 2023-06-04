@@ -18,9 +18,9 @@ namespace Application
             _repository = repository;
         }
 
-        public void Delete(int id)
+        public IList<T> GetDetalleOrdenVenta(int id)
         {
-            _repository.Delete(id);
+           return _repository.GetDetalleOrdenVenta(id);
         }
 
         public IList<T> GetAll(int id)
@@ -28,9 +28,9 @@ namespace Application
             return _repository.GetAll(id);
         }
 
-        public IList<T> GetByState(bool estado)
+        public IList<T> GetById(long cedula, string tabla)
         {
-            return _repository.GetByState(estado);
+            return _repository.GetById(cedula,tabla);
         }
 
         public T Save(T entity)

@@ -1,0 +1,48 @@
+/* Estilos para el componente FetchDataComponent */
+
+.container {
+  margin: 20px;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+}
+
+.person-select {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.person-select__icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.person-select__name {
+  font-weight: bold;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+  .table th,
+  .table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+
+.total-label {
+  font-weight: bold;
+}
+
+.total-value {
+  color: #ff0000;
+}
